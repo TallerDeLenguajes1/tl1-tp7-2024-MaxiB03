@@ -1,70 +1,25 @@
-﻿
-using EspacioCalculadora;
+﻿using EspacioEmpleado;
 
-int operacion=1;
-double termino;
-var calculadora=new Calculadora();
+Empleado empleado1 = new Empleado("Mateo", "Coronel", new DateTime(1998, 8, 14), 'C', new DateTime(2015, 7, 18), 550000, Cargos.Especialista);
+Empleado empleado2 = new Empleado("Joaquin", "Pereyra", new DateTime(1985, 10, 15), 'C', new DateTime(2009, 5, 20), 650000, Cargos.Ingeniero);
+Empleado empleado3 = new Empleado("Adrian", "Sanchez", new DateTime(2000, 2, 18), 'S', new DateTime(2018, 3, 12), 400000, Cargos.Administrativo);
 
-do
+/*Cargue los datos para 3 empleados en un arreglo de tipo empleados.*/
+Empleado[] empleados={empleado1, empleado2, empleado3};
+
+/*Obtener el Monto Total de lo que se paga en concepto de Salarios.*/
+Console.WriteLine("Monto total de Salarios: " +(empleado1.Salario()+empleado2.Salario()+empleado3.Salario()));
+
+/*Muestre por pantalla los datos del empleado que esté más próximo a jubilarse*/
+Empleado empleadoAjubilarse = empleado1;
+
+foreach (Empleado empleado in empleados)
 {
-    Console.WriteLine("==================");
-    Console.WriteLine("1- Sumar");
-    Console.WriteLine("2- Restar");
-    Console.WriteLine("3- Multiplicar");
-    Console.WriteLine("4- Dividir");
-    Console.WriteLine("5- Limpiar");
-    Console.WriteLine("0- Salir");
-    Console.WriteLine("==================");
-    Console.WriteLine("Ingrese una Operacion: ");
-    bool controlOp=int.TryParse(Console.ReadLine(), out operacion);
-
-    if(controlOp && operacion<6)
+    if(empleado.AniosParaJubilarse() < empleadoAjubilarse.AniosParaJubilarse())
     {
-        if(operacion!=0)
-        {
-            if(operacion!=5)
-            {
-                Console.WriteLine("Ingrese un numero: ");
-                bool controNum=double.TryParse(Console.ReadLine(), out termino);
-
-                if(controNum)
-                {
-                    switch (operacion)
-                    {
-                        case 1:
-                        calculadora.Sumar(termino);
-                        break;
-                        case 2:
-                        calculadora.Restar(termino);
-                        break;
-                        case 3:
-                        calculadora.Multiplicar(termino);
-                        break;
-                        case 4:
-                        calculadora.Dividir(termino);
-                        break;
-
-                        default:
-                        Console.WriteLine("La Operacion Ingresada no existe");
-                        break;
-                    }
-                }else
-                {
-                    Console.WriteLine("No Ingreso un numero");
-                }
-
-            }else
-            {
-                calculadora.Limpiar();
-            }
-
-        }else
-        {
-            Console.WriteLine("Resultado Total: "+calculadora.Resultado);
-        }
-
-    }else
-    {
-        Console.WriteLine("Operacion Incorrecta, Ingrese nuevamente");
+        empleadoAjubilarse=empleado;
     }
-} while (operacion!=0);
+}
+
+Console.WriteLine("---- Datos del empleado Más próximo a jubilarse ----");
+empleadoAjubilarse.MostrarDatos();
